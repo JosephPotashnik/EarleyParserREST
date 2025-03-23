@@ -18,4 +18,4 @@ COPY --from=build /out .
 EXPOSE 8080
 
 # Run the application
-CMD ["dotnet", "EarleyParser.dll"]
+CMD ["dotnet", "EarleyParserREST.dll"]
