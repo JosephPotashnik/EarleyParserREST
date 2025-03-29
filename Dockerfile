@@ -9,6 +9,10 @@ RUN dotnet restore
 # Build the application
 RUN dotnet publish -c Release -o /out
 
+# Copy the Grammars and Vocs directories into the container (add this line)
+COPY Grammars /app/Grammars
+COPY Vocs /app/Vocs
+
 # Use a runtime image for the final container
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
