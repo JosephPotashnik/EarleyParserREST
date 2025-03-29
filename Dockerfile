@@ -16,10 +16,19 @@ COPY Vocs /app/Vocs
 # Use a runtime image for the final container
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
+
+# Copy the published output from the build image
 COPY --from=build /out .
 
-# Expose the application port
+# Copy the Grammars and Vocs directories into the runtime container as well
+COPY Grammars /app/Grammars
+COPY Vocs /app/Vocs
+
+# Expose the application port (8080 is commonly used for containerized .NET apps)
 EXPOSE 8080
+
+# Set the environment variables if needed for production
+ENV ASPNETCORE_URLS=http://+:8080
 
 # Run the application
 CMD ["dotnet", "EarleyParserREST.dll"]
