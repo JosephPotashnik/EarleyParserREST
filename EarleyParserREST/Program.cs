@@ -12,11 +12,23 @@ builder.Services.AddCors(options =>
                         .AllowAnyHeader());
 });
 
+builder.Services.AddEndpointsApiExplorer(); // Required for Minimal APIs
+builder.Services.AddSwaggerGen(); // Registers Swagger
 
 var app = builder.Build();
 
 app.UseHttpsRedirection(); 
 app.UseCors("AllowAll");
+
+
+
+
+// Enable Swagger in Development mode
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 
 var grammarsDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Grammars");
