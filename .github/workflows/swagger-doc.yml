@@ -19,7 +19,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0'  # Adjust based on your project
+          dotnet-version: '8.0'
 
       - name: Restore dependencies
         run: dotnet restore
@@ -35,7 +35,7 @@ jobs:
       - name: Find the running port
         run: |
           PORT=$(grep -oP 'http://localhost:\K\d+' output.log | head -1)
-          echo "API is running on port $PORT"
+          echo "Using API port: $PORT"
           echo "PORT=$PORT" >> $GITHUB_ENV
 
       - name: Fetch Swagger JSON
