@@ -34,7 +34,8 @@ jobs:
 
       - name: Find the running port
         run: |
-          PORT=$(grep -oP 'http://localhost:\K\d+' output.log | head -1)
+          cat output.log  # Print the output to debug
+          PORT=$(grep -oP 'http://localhost:\d+' output.log | grep -oP '\d+' | head -1)
           echo "Using API port: $PORT"
           echo "PORT=$PORT" >> $GITHUB_ENV
 
