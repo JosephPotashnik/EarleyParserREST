@@ -87,7 +87,7 @@ app.MapGet("/vocs/{filename}", (string filename) =>
     return Results.File(filePath, "text/plain"); // Change MIME type as needed
 });
 
-
+//test
 app.MapPost("/ParseSentence",  (EarleyParserParams p) =>
 {
     var POSRules = GrammarFileReader.ReadRules(p.PartOfSpeechRules);
