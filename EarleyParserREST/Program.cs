@@ -21,7 +21,7 @@ app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 
 app.UseSwagger();
-app.UseSwaggerUI(); //testing.
+app.UseSwaggerUI(); 
 
 
 var grammarsDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Grammars");
@@ -61,7 +61,7 @@ app.MapGet("/grammars/{filename}", (string filename) =>
         return Results.NotFound("File not found");
     }
 
-    return Results.File(filePath, "text/plain"); // Change MIME type as needed
+    return Results.File(filePath, "text/plain"); 
 });
 
 
@@ -84,7 +84,7 @@ app.MapGet("/vocs/{filename}", (string filename) =>
         return Results.NotFound("File not found");
     }
 
-    return Results.File(filePath, "text/plain"); // Change MIME type as needed
+    return Results.File(filePath, "text/plain"); 
 });
 
 app.MapPost("/ParseSentence",  (EarleyParserParams p) =>
