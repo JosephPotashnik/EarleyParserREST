@@ -15,6 +15,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          # Make sure we have write access to the repository
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -67,4 +70,5 @@ jobs:
           git commit -m "Update Swagger API documentation"
           git push
         env:
+          # Pass the GITHUB_TOKEN to authenticate and authorize the push
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
