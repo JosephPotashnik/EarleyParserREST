@@ -39,7 +39,7 @@ if (!Directory.Exists(vocsDirectory))
 }
 
 
-app.MapGet("/", () => "Hello Earley Parser!");
+app.MapGet("/", () => "Hello Earley Parser!"); //hello!
 
 
 app.MapGet("/grammars", () =>
