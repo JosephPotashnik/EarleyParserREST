@@ -3,10 +3,10 @@ name: Generate Swagger Docs
 on:
   push:
     branches:
-      - master  # Runs when code is pushed to the main branch
+      - master
   pull_request:
     branches:
-      - master  # Runs on PRs to main
+      - master
 
 jobs:
   generate-swagger:
@@ -29,11 +29,17 @@ jobs:
 
       - name: Run the API in the background
         run: |
-          dotnet run --no-build --configuration Release &
+          dotnet run --no-build --configuration Release > output.log 2>&1 &
           sleep 10  # Wait for the server to start
 
+      - name: Find the running port
+        run: |
+          PORT=$(grep -oP 'http://localhost:\K\d+' output.log | head -1)
+          echo "API is running on port $PORT"
+          echo "PORT=$PORT" >> $GITHUB_ENV
+
       - name: Fetch Swagger JSON
-        run: curl http://localhost:7278/swagger/v1/swagger.json -o swagger.json
+        run: curl http://localhost:${{ env.PORT }}/swagger/v1/swagger.json -o swagger.json
 
       - name: Move Swagger JSON to docs folder
         run: |
