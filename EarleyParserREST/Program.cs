@@ -20,15 +20,8 @@ var app = builder.Build();
 app.UseHttpsRedirection(); 
 app.UseCors("AllowAll");
 
-
-
-
-// Enable Swagger in Development mode
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 
 var grammarsDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Grammars");
