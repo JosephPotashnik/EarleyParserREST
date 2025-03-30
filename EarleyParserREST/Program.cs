@@ -1,5 +1,7 @@
 
 using EarleyParser;
+using Microsoft.AspNetCore.Hosting.Server.Features;
+using Microsoft.AspNetCore.Hosting.Server;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +29,20 @@ app.UseSwaggerUI();
 var grammarsDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Grammars");
 var vocsDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Vocs");
 
+// Print the assigned ports
+app.Lifetime.ApplicationStarted.Register(() =>
+{
+    var server = app.Services.GetRequiredService<IServer>();
+    var addresses = server.Features.Get<IServerAddressesFeature>()?.Addresses;
+
+    if (addresses != null)
+    {
+        foreach (var address in addresses)
+        {
+            Console.WriteLine($"API running at: {address}");
+        }
+    }
+});
 
 // Ensure directory exists
 if (!Directory.Exists(grammarsDirectory))
