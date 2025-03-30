@@ -21,7 +21,7 @@ app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(); //testing.
 
 
 var grammarsDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Grammars");
