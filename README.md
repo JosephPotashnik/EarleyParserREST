@@ -2,7 +2,7 @@
 
 A powerful Natural Language Processing API providing seamless access to an Earley Parser NuGET Library. Parse sentences according to **any** context-free grammar with this flexible and efficient implementation.
 
-> 📦 **Source Code of the parser**: [GitHub Repository](https://github.com/JosephPotashnik/EarleyParser)
+> 📦 **Source Code**: [GitHub Repository](https://github.com/JosephPotashnik/EarleyParser)
 
 ## 📚 Documentation
 
@@ -65,6 +65,20 @@ Where:
 - `X` is a single left-hand side nonterminal (the part of speech)
 - `->` is the production symbol
 - `token` is the lexical token
+
+#### Vocabulary Optimization
+**Important:** There is no need to send the entire vocabulary with each request. It suffices to send only the Part of Speech rules involving the lexical tokens present in the sentence being parsed. This optimization significantly reduces request payload size.
+
+#### Lexical Ambiguity
+A lexical token can correspond to more than one part of speech. For example:
+```json
+[
+  "N -> saw",
+  "V -> saw"
+]
+```
+
+The parser handles this syntactic ambiguity naturally. However, note that it has no semantic component, so it cannot distinguish between different meanings of the same word (e.g., 'bank' as a river bank versus 'bank' as a financial institution).
 
 #### Example Part of Speech Rules
 ```json
