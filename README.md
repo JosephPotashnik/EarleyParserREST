@@ -1,10 +1,12 @@
-# EarleyParserREST
+# 🌟 EarleyParserREST
 
-A powerful API providing access to an Earley Parser NuGET Library whose code is also available <a href="https://github.com/JosephPotashnik/EarleyParser"> here <a>. This API allows you to parse sentences according to <b>any</b> context free grammar.
+A powerful Natural Language Processing API providing seamless access to an Earley Parser NuGET Library. Parse sentences according to **any** context-free grammar with this flexible and efficient implementation.
+
+> 📦 **Source Code of the parser**: [GitHub Repository](https://github.com/JosephPotashnik/EarleyParser)
 
 ## 📚 Documentation
 
-<a href="http://josephpotashnik.github.io/EarleyParserREST/dist/index.html"> View the complete Swagger API Documentation</a>
+[View the complete Swagger API Documentation](http://josephpotashnik.github.io/EarleyParserREST/dist/index.html)
 
 ## 🚀 Getting Started
 
@@ -18,9 +20,75 @@ Send a POST request with a JSON object containing:
 | `partOfSpeechRules` | string[] | Rules mapping parts of speech to lexical tokens |
 | `sentence` | string | The sentence to parse (sequence of lexical tokens) |
 
-### Response
+## 📋 Parameter Formats
 
-The API returns an array of bracketed representations of the parsed trees.
+### Grammar Rules Format
+
+Each string in the `grammarRules` array must follow this format:
+```
+"X -> Y1 Y2 Y3 ..."
+```
+
+Where:
+- `X` is a single left-hand side nonterminal
+- `->` is the production symbol
+- `Y1 Y2 Y3 ...` is a sequence of right-hand side nonterminals (one or more)
+
+#### Example Grammar Rules
+```json
+[
+  "START -> T1",
+  "T1 -> NP VP",
+  "VP -> V0",
+  "VP -> V1 NP",
+  "VP -> V2 PP", 
+  "VP -> V3 T1",
+  "PP -> P NP",
+  "NP -> D N",
+  "NP -> PN",
+  "NP -> NP PP",
+  "VP -> VP PP",
+  "NP -> D NBAR",
+  "NBAR -> A NBAR",
+  "NBAR -> A N"
+]
+```
+
+### Part of Speech Rules Format
+
+Each string in the `partOfSpeechRules` array must follow this format:
+```
+"X -> token"
+```
+
+Where:
+- `X` is a single left-hand side nonterminal (the part of speech)
+- `->` is the production symbol
+- `token` is the lexical token
+
+#### Example Part of Speech Rules
+```json
+[
+  "PN -> John",
+  "PN -> Mary",
+  "V1 -> loved",
+  "V1 -> saw",
+  "V0 -> fell",
+  "V0 -> ran",
+  "D -> the",
+  "D -> a",
+  "N -> man",
+  "N -> woman",
+  "P -> with",
+  "P -> to",
+  "A -> pretty",
+  "A -> big"
+]
+```
+
+## 📊 Response
+
+The API returns an array of bracketed representations of the parsed trees. Multiple parse trees may be returned if the sentence is ambiguous according to your grammar.
 
 ## 💻 Usage Example
 
@@ -53,6 +121,21 @@ async function parseSentence(
 }
 ```
 
+## 🔎 Example Parse
+
+For the sentence "the dog ran", you might receive a parse tree like:
+```
+[START [T1 [NP [D the] [N dog]] [VP [V0 ran]]]]
+```
+
 ## 🔍 What It Does
 
-The API parses your input sentence according to the provided grammar and part-of-speech rules, returning all valid parse trees for the sentence.
+The API applies the Earley parsing algorithm to your input sentence according to your provided grammar and part-of-speech rules. It handles ambiguity elegantly, returning all valid parse trees for the given sentence.
+
+## 🛠 Advanced Use Cases
+
+- Natural language understanding
+- Syntax validation
+- Linguistic research
+- Custom language parsing
+- Educational tools for grammar learning
