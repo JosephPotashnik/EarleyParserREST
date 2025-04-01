@@ -104,7 +104,54 @@ The parser handles this syntactic ambiguity naturally. However, note that it has
 
 The API returns an array of bracketed representations of the parsed trees. Multiple parse trees may be returned if the sentence is ambiguous according to your grammar.
 
-## 💻 Usage Example
+## 🧩 Usage Example: PP-Attachment Ambiguity
+
+Below is a classic example demonstrating how the parser handles prepositional phrase attachment ambiguity:
+
+```javascript
+// Sentence to parse
+const sentence = "John saw the girl with the telescope";
+
+// Grammar rules defining syntactic structure
+const grammarRules = [
+  "START -> T1",
+  "T1 -> NP VP",
+  "VP -> V0",
+  "VP -> V1 NP",
+  "VP -> V2 PP", 
+  "VP -> V3 T1",
+  "PP -> P NP",
+  "NP -> D N",
+  "NP -> PN",
+  "NP -> NP PP",
+  "VP -> VP PP"
+];
+
+// Only including the parts of speech needed for this sentence
+const partOfSpeechRules = [
+  "PN -> John",
+  "V1 -> saw",
+  "D -> the",
+  "N -> girl",
+  "N -> telescope",
+  "P -> with"
+];
+
+// The API returns two possible parses:
+[
+  // Parse 1: VP attachment - John [saw the girl] [with the telescope]
+  "(START (T1 (NP (PN John)) (VP (VP (V1 saw) (NP (D the) (N girl))) (PP (P with) (NP (D the) (N telescope))))))",
+  
+  // Parse 2: NP attachment - John saw [the girl [with the telescope]]
+  "(START (T1 (NP (PN John)) (VP (V1 saw) (NP (NP (D the) (N girl)) (PP (P with) (NP (D the) (N telescope)))))))"
+]
+```
+
+This example illustrates how the parser correctly identifies both interpretations:
+1. John used a telescope to see the girl (VP attachment)
+2. John saw a girl who had a telescope (NP attachment)
+
+## 💻 API Implementation
 
 Here's how to call the API in TypeScript:
 
@@ -135,21 +182,23 @@ async function parseSentence(
 }
 ```
 
-## 🔎 Example Parse
+## 🔍 How It Works
 
-For the sentence "the dog ran", you might receive a parse tree like:
-```
-[START [T1 [NP [D the] [N dog]] [VP [V0 ran]]]]
-```
+The API applies the Earley parsing algorithm to your input sentence according to your provided grammar and part-of-speech rules. The algorithm:
 
-## 🔍 What It Does
+1. Processes the input tokens from left to right
+2. Builds sets of partial parses (chart entries)
+3. Efficiently handles ambiguity by exploring all valid interpretations
+4. Returns all possible parse trees that conform to your grammar
 
-The API applies the Earley parsing algorithm to your input sentence according to your provided grammar and part-of-speech rules. It handles ambiguity elegantly, returning all valid parse trees for the given sentence.
+This makes it particularly effective for natural language processing where ambiguity is common and multiple interpretations may be valid.
 
 ## 🛠 Advanced Use Cases
 
 - Natural language understanding
 - Syntax validation
 - Linguistic research
+- Grammar checking
 - Custom language parsing
 - Educational tools for grammar learning
+- Automated text analysis
