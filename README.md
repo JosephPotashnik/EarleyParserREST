@@ -8,6 +8,43 @@ A powerful Natural Language Processing API providing seamless access to an Earle
 
 [View the complete Swagger API Documentation](http://josephpotashnik.github.io/EarleyParserREST/dist/index.html)
 
+## 💍 Cloning the Repository
+
+To get a copy of the project locally, run the following command:
+
+```sh
+git clone https://github.com/JosephPotashnik/EarleyParserREST.git
+cd EarleyParserREST
+```
+## ⚙️ Running the Project Locally
+
+### Prerequisites
+
+Ensure you have the following installed:
+- **.NET SDK** (Latest stable version) → [Download here](https://dotnet.microsoft.com/download)
+- **Docker** (Optional, if running in a container) → [Download here](https://www.docker.com/get-started)
+
+### Running with .NET CLI
+
+```sh
+cd EarleyParserRest
+# Restore dependencies
+dotnet restore
+# Build the project
+dotnet build
+# Run the API
+dotnet run
+```
+ASP.NET assigns ports dynamically, typically API would be accessible at `http://localhost:5000` (or `http://localhost:5001` for HTTPS). However, once the project runs, the console logs the actual ports in use.
+
+### Running with Docker
+
+Alternatively, you can run the API in a Docker container. 
+
+```sh
+docker build -t earleyparserrest .
+docker run -p 5000:5000 earleyparserrest
+```
 ## 🚀 Getting Started
 
 ### Main Endpoint: `/ParseSentence`
